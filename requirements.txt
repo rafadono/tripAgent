@@ -1,0 +1,13 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.8.2
+requests==2.32.3
+python-dateutil==2.9.0.post0
+ortools>=9.15.6755,<10
+folium==0.17.0
+google-auth==2.34.0
+python-dotenv==1.0.1
+aiofiles>=23.0
+redis==5.2.1
+orjson==3.10.18
+httpx==0.28.1

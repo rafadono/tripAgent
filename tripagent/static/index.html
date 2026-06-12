@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title data-i18n="title">TripAgent - Route Optimizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="/static/css/app.css"/>
+</head>
+<body>
+<div id="root">
+<div id="panel">
+  <div id="header">
+    <div id="logo">
+      <div class="logo-sq"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+      <div><h1>Trip<em>Agent</em></h1></div>
+    </div>
+    <div id="header-actions">
+      <button class="hbtn" onclick="openSavedRoutes()" title="Rutas guardadas" data-i18n-title="saved_routes_btn">💾</button>
+      <button class="hbtn" onclick="toggleTheme()" title="Cambiar tema" id="theme-btn" data-i18n-title="change_theme_btn">🌙</button>
+      <button class="hbtn" onclick="toggleLanguage()" id="lang-btn">🌐 EN</button>
+      <button class="hbtn mobile-only" id="mobile-close-btn" onclick="toggleMobilePanel()" title="Cerrar panel" data-i18n-title="close_panel_btn">✕</button>
+    </div>
+  </div>
+
+  <div id="search-area">
+    <div id="auth-box" class="auth-box">
+      <input id="auth-user" type="text" placeholder="Usuario" data-i18n-placeholder="auth_user_placeholder" />
+      <input id="auth-pass" type="password" placeholder="Clave" data-i18n-placeholder="auth_pass_placeholder" />
+      <button type="button" onclick="login()" data-i18n="auth_login_btn">Login</button>
+      <span id="auth-state" data-i18n="auth_state_no_session">Sin sesion</span>
+    </div>
+    <div class="search-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="q" type="text" placeholder="Escribe una dirección o lugar…" autocomplete="off" data-i18n-placeholder="search_placeholder"/>
+    </div>
+    <div id="dd"></div>
+    <div id="mode-chips">
+      <button class="chip on" data-m="poi" onclick="setMode('poi')" data-i18n="chip_poi">+ Lugar</button>
+      <button class="chip" data-m="start" onclick="setMode('start')" data-i18n="chip_start">📍 Inicio</button>
+    </div>
+  </div>
+
+  <div id="list-area">
+    <div id="empty">
+      <div class="ei">🗺️</div>
+      <p data-i18n="empty_message">Escribe una dirección arriba<br>para comenzar tu itinerario.</p>
+    </div>
+    <div id="list" style="display:none">
+      <div class="sec" id="sl" style="display:none">
+        <span data-i18n="start_label">Inicio</span>
+        <button class="sec-btn" onclick="rmStart()" data-i18n="rm_start_btn">Quitar</button>
+      </div>
+      <div id="sr"></div>
+      <div class="sec" id="pl" style="display:none">
+        <span data-i18n="places_label">Lugares</span> (<span id="poi-count">0</span>)
+        <button class="sec-btn" onclick="rmAllPois()" data-i18n="clear_places_btn">Limpiar</button>
+      </div>
+      <div id="pr"></div>
+    </div>
+  </div>
+
+  <div id="settings">
+    <div id="cost-badge"><strong data-i18n="est_cost_label">💰 Costo estimado:</strong> <span id="cost-val">$0</span></div>
+    <div class="grid2">
+      <div class="f"><label data-i18n="date_label">Fecha</label><input type="date" id="sd"/></div>
+      <div class="f"><label data-i18n="transport_label">Transporte</label>
+        <select id="sm" onchange="updateCost()">
+          <option value="driving" data-i18n="opt_driving">🚗 Auto</option>
+          <option value="walking" data-i18n="opt_walking">🚶 Caminar</option>
+          <option value="transit" data-i18n="opt_transit">🚌 Transporte público</option>
+          <option value="cycling" data-i18n="opt_cycling">🚲 Bicicleta</option>
+        </select>
+      </div>
+      <div class="f"><label data-i18n="from_label">Desde</label><input type="time" id="st" value="09:00"/></div>
+      <div class="f"><label data-i18n="to_label">Hasta</label><input type="time" id="se" value="20:00"/></div>
+      <div class="f full"><label data-i18n="objective_label">Objetivo</label>
+        <select id="so">
+          <option value="time" data-i18n="opt_time">⚡ Tiempo mínimo</option>
+          <option value="money" data-i18n="opt_money">💰 Costo mínimo</option>
+          <option value="comfort" data-i18n="opt_comfort">😌 Comodidad</option>
+        </select>
+      </div>
+    </div>
+    <button id="btn" onclick="runPlan()"><span data-i18n="btn_optimize">Optimizar ruta →</span></button>
+  </div>
+</div>
+
+<div id="map-wrap">
+  <button id="mobile-toggle-btn" class="mobile-only-flex" onclick="toggleMobilePanel()">☰</button>
+  <div id="map"></div>
+  <div id="map-controls">
+    <button class="map-btn" data-layer="food" onclick="toggleLayer('food')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_food">🍽️ Comida</span>
+    </button>
+    <button class="map-btn" data-layer="parking" onclick="toggleLayer('parking')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_parking">🅿️ Estacionamiento</span>
+    </button>
+    <button class="map-btn" data-layer="metro" onclick="toggleLayer('metro')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_metro">🚇 Metro</span>
+    </button>
+    <button class="map-btn" data-layer="bus" onclick="toggleLayer('bus')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_bus">🚌 Paraderos</span>
+    </button>
+    <button class="map-btn" data-layer="cycling" onclick="toggleLayer('cycling')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_cycling_lanes">🚲 Ciclovías</span>
+    </button>
+    <button class="map-btn" data-layer="pharmacy" onclick="toggleLayer('pharmacy')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_pharmacy">💊 Farmacias</span>
+    </button>
+    <button class="map-btn" data-layer="atm" onclick="toggleLayer('atm')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_atm">🏧 ATMs</span>
+    </button>
+    <button class="map-btn" data-layer="toilet" onclick="toggleLayer('toilet')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_toilet">🚻 Baños</span>
+    </button>
+    <button class="map-btn" data-layer="viewpoint" onclick="toggleLayer('viewpoint')">
+      <span class="map-btn-dot"></span><span data-i18n="layer_viewpoint">🔭 Miradores</span>
+    </button>
+  </div>
+  <div id="toast"></div>
+  <div id="drawer">
+    <div id="dh">
+      <h3 data-i18n="drawer_title">Itinerario optimizado</h3>
+      <div id="dh-actions">
+        <button class="dh-btn" onclick="exportToClipboard()" data-i18n="btn_copy">Copiar</button>
+        <button class="dh-btn" onclick="saveRoute()" data-i18n="btn_save_route">Guardar ruta</button>
+        <button class="dh-btn" onclick="saveOptimizationRun()" data-i18n="btn_save_run">Guardar corrida</button>
+        <button class="dh-btn" onclick="openCompareRuns()" data-i18n="btn_compare">Comparar</button>
+        <button class="dh-btn" onclick="fetchAlternatives()" data-i18n="btn_alternatives">Ranking alternativas</button>
+        <button class="dh-btn" onclick="replanNow()" data-i18n="btn_replan">Replanificar ahora</button>
+        <button id="dc" onclick="closeDrawer()">x</button>
+      </div>
+    </div>
+    <div id="dstats"></div>
+    <div id="day-progress"></div>
+    <div id="leg-editor"></div>
+    <div id="result-table-wrap"></div>
+    <div id="tl"></div>
+  </div>
+</div>
+</div>
+
+<div class="modal" id="saved-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 data-i18n="modal_saved_title">💾 Rutas Guardadas</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="saved-list"></div>
+  </div>
+</div>
+
+<div class="modal" id="compare-modal" onclick="if(event.target===this)closeCompareModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 data-i18n="modal_compare_title">Comparar corridas</h3>
+      <button class="modal-close" onclick="closeCompareModal()">x</button>
+    </div>
+    <div class="modal-body" id="compare-list"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/static/js/app_core.js"></script>
+<script src="/static/js/app_places.js"></script>
+<script src="/static/js/app_runs.js"></script>
+<script src="/static/js/app_route.js"></script>
+</body>
+</html>

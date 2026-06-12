@@ -1,0 +1,47 @@
+services:
+  # Core tripAgent FastAPI backend application
+  tripagent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: tripagent:latest
+    container_name: tripagent
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./out:/app/out
+    restart: unless-stopped
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"]
+      interval: 30s
+      timeout: 10s
+      start_period: 25s
+      retries: 3
+
+  # Cache and persistence layer using Redis
+  redis:
+    image: redis:7-alpine
+    container_name: tripagent-redis
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  # Optional Nginx Proxy for Ads Monetization & SEO Landing Page.
+  # To run, map ports and start along with the core services.
+  nginx-proxy:
+    image: nginx:1.27-alpine
+    container_name: tripagent-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./tripagent/static:/usr/share/nginx/html/static:ro
+      - ./deploy/nginx/monetize.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    depends_on:
+      - tripagent

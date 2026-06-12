@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="title">TripAgent - Politicas y cumplimiento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --ink: #0f172a;
+      --brand: #2563eb;
+      --card: #ffffff;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    body[data-theme="dark"] {
+      --bg: #070d19;
+      --ink: #ddeeff;
+      --brand: #3b82f6;
+      --card: #111f30;
+      --muted: #7c9cb8;
+      --border: #1d3050;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin: 0;
+      font-family: 'Sora', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
+    .wrap { max-width:920px; margin:0 auto; padding:24px; }
+    .box { background:var(--card); border: 1px solid var(--border); border-radius:14px; padding:20px; box-shadow:0 10px 24px rgba(0,0,0,.03); margin-bottom:14px; transition: background 0.3s, border-color 0.3s; }
+    .nav { display:flex; align-items:center; padding: 10px 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .nav a { margin-right:16px; color:var(--brand); text-decoration:none; font-weight:600; transition: opacity 0.2s; }
+    .nav a:hover { opacity: 0.8; }
+    a { color:var(--brand); text-decoration: none; font-weight: 500; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <a href="/landing" data-i18n="nav_landing">Landing</a>
+      <a href="/" data-i18n="nav_app">Optimizador</a>
+      <a href="/guides" data-i18n="nav_guides">Guias</a>
+      <button onclick="toggleLanguage()" id="lang-btn" style="background:none;border:none;color:#0b66c3;font-weight:600;cursor:pointer;margin-left:12px;">🌐 EN</button>
+    </div>
+    
+    <div class="box">
+      <h1 data-i18n="h1_title">Politicas de monetizacion y uso</h1>
+      <p data-i18n="p1_desc">TripAgent evita incentivos de clic en anuncios y separa visualmente anuncios de botones de accion.</p>
+    </div>
+    <div class="box">
+      <h2 data-i18n="h2_commitments">Compromisos</h2>
+      <ul>
+        <li data-i18n="li1">No se solicita hacer clic en anuncios.</li>
+        <li data-i18n="li2">No se mezclan anuncios con controles de navegacion/optimizar.</li>
+        <li data-i18n="li3">Se aplican controles de costo para APIs pagadas.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2 data-i18n="h2_references">Referencias oficiales</h2>
+      <p><a href="https://support.google.com/adsense/answer/48182" data-i18n="ref1">AdSense Program Policies</a></p>
+      <p><a href="https://support.google.com/adsense/answer/10502938" data-i18n="ref2">Google Publisher Policies</a></p>
+      <p><a href="https://developers.google.com/maps/billing-and-pricing/manage-costs" data-i18n="ref3">Google Maps Cost Controls</a></p>
+      <p><a href="https://cloud.google.com/maps-platform/terms/index-20191121" data-i18n="ref4">Google Maps Platform Terms</a></p>
+    </div>
+  </div>
+
+  <script>
+    const POLICIES_TRANSLATIONS = {
+      es: {
+        title: "TripAgent - Políticas y cumplimiento",
+        nav_landing: "Landing",
+        nav_app: "Optimizador",
+        nav_guides: "Guías",
+        h1_title: "Políticas de monetización y uso",
+        p1_desc: "TripAgent evita incentivos de clic en anuncios y separa visualmente anuncios de botones de acción.",
+        h2_commitments: "Compromisos",
+        li1: "No se solicita hacer clic en anuncios.",
+        li2: "No se mezclan anuncios con controles de navegación/optimizar.",
+        li3: "Se aplican controles de costo para APIs pagadas.",
+        h2_references: "Referencias oficiales",
+        ref1: "Políticas del Programa AdSense",
+        ref2: "Políticas para Editores de Google",
+        ref3: "Controles de Costos de Google Maps",
+        ref4: "Términos de Google Maps Platform"
+      },
+      en: {
+        title: "TripAgent - Policies and Compliance",
+        nav_landing: "Landing",
+        nav_app: "Optimizer",
+        nav_guides: "Guides",
+        h1_title: "Monetization and Terms of Use",
+        p1_desc: "TripAgent prevents ad click incentives and visually separates advertisements from action buttons.",
+        h2_commitments: "Commitments",
+        li1: "No clicking on ads is requested.",
+        li2: "Ads are not mixed with navigation/optimizing controls.",
+        li3: "Cost control measures are applied for paid APIs.",
+        h2_references: "Official References",
+        ref1: "AdSense Program Policies",
+        ref2: "Google Publisher Policies",
+        ref3: "Google Maps Cost Controls",
+        ref4: "Google Maps Platform Terms"
+      }
+    };
+
+    let currentLanguage = localStorage.getItem('tripagent_lang') || 'es';
+
+    function applyTranslations() {
+      const trans = POLICIES_TRANSLATIONS[currentLanguage] || POLICIES_TRANSLATIONS['es'];
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(trans[key]) el.innerHTML = trans[key];
+      });
+
+      document.title = trans.title;
+
+      const btn = document.getElementById('lang-btn');
+      if (btn) {
+        btn.textContent = currentLanguage === 'es' ? '🌐 EN' : '🌐 ES';
+      }
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+      localStorage.setItem('tripagent_lang', currentLanguage);
+      applyTranslations();
+    }
+
+    function applyTheme() {
+      const savedTheme = localStorage.getItem('tripagent_theme') || 'dark';
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+
+    function init() {
+      applyTheme();
+      applyTranslations();
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

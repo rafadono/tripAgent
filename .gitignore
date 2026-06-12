@@ -1,0 +1,31 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python caches and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# Databases
+*.db
+*.db-journal
+*.db-wal
+out/
+
+# Environment configurations
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project outputs
+dist/
+build/
+*.egg-info/

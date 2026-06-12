@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="title">TripAgent Guides - Movilidad urbana</title>
+  <meta name="description" content="Guias de movilidad urbana para combinar metro, micro, caminata y estacionamiento sin sobrecostos." id="meta-desc" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --ink: #0f172a;
+      --brand: #2563eb;
+      --card: #ffffff;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --ad-bg: #f1f5f9;
+      --ad-border: #cbd5e1;
+    }
+    body[data-theme="dark"] {
+      --bg: #070d19;
+      --ink: #ddeeff;
+      --brand: #3b82f6;
+      --card: #111f30;
+      --muted: #7c9cb8;
+      --border: #1d3050;
+      --ad-bg: #172540;
+      --ad-border: #254268;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin: 0;
+      font-family: 'Sora', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
+    .wrap { max-width:960px; margin:0 auto; padding:24px; }
+    .hero { background:var(--card); border: 1px solid var(--border); border-radius:16px; padding:28px; box-shadow:0 10px 30px rgba(0,0,0,.05); transition: background 0.3s, border-color 0.3s; }
+    h1 { margin:0 0 10px; font-size:2rem; font-weight: 700; }
+    p { color:var(--muted); line-height:1.55; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px; }
+    .card { background:var(--card); border: 1px solid var(--border); border-radius:12px; padding:18px; box-shadow:0 4px 20px rgba(0,0,0,.03); transition: background 0.3s, border-color 0.3s; }
+    .nav { display:flex; align-items:center; padding: 10px 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .nav a { color:var(--brand); text-decoration:none; margin-right:16px; font-weight:600; transition: opacity 0.2s; }
+    .nav a:hover { opacity: 0.8; }
+    .ad-slot { margin:14px 0; min-height:90px; border:2px dashed var(--ad-border); border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--muted); background:var(--ad-bg); transition: background 0.3s, border-color 0.3s; font-weight: 500; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <a href="/landing" data-i18n="nav_landing">Landing</a>
+      <a href="/" data-i18n="nav_app">Optimizador</a>
+      <a href="/policies" data-i18n="nav_policies">Politicas</a>
+      <button onclick="toggleLanguage()" id="lang-btn" style="background:none;border:none;color:#0b66c3;font-weight:600;cursor:pointer;margin-left:12px;">🌐 EN</button>
+    </div>
+    <section class="hero">
+      <h1 data-i18n="hero_h1">Guias para optimizar viajes en Santiago</h1>
+      <p data-i18n="hero_p">Contenido editorial para estrategia content-first. Los anuncios deben quedar separados de botones de navegacion y de elementos de accion.</p>
+    </section>
+    
+    <div class="ad-slot" data-i18n="ad_slot1">Zona de anuncio superior (no interactuar de forma incentivada)</div>
+    
+    <section class="grid">
+      <article class="card">
+        <h3 data-i18n="card1_h3">Guia 1: Metro + caminata para horas punta</h3>
+        <p data-i18n="card1_p">Usa metro en tramos troncales y caminata final para reducir tiempo total en zonas congestionadas.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="card2_h3">Guia 2: Parking periférico + ultimo tramo a pie</h3>
+        <p data-i18n="card2_p">Comparativa de costo entre estacionar en zona premium versus estacionar lejos y caminar 8-12 minutos.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="card3_h3">Guia 3: Micro en valle para recortar gasto</h3>
+        <p data-i18n="card3_p">Rutas de bajo costo cuando la prioridad es presupuesto y no tiempo minimo.</p>
+      </article>
+    </section>
+    <div class="ad-slot" data-i18n="ad_slot2">Zona de anuncio intermedio</div>
+  </div>
+
+  <script>
+    const GUIDES_TRANSLATIONS = {
+      es: {
+        title: "TripAgent Guides - Movilidad urbana",
+        desc: "Guias de movilidad urbana para combinar metro, micro, caminata y estacionamiento sin sobrecostos.",
+        nav_landing: "Landing",
+        nav_app: "Optimizador",
+        nav_policies: "Políticas",
+        hero_h1: "Guias para optimizar viajes en Santiago",
+        hero_p: "Contenido editorial para estrategia content-first. Los anuncios deben quedar separados de botones de navegación y de elementos de acción.",
+        ad_slot1: "Zona de anuncio superior (no interactuar de forma incentivada)",
+        ad_slot2: "Zona de anuncio intermedio",
+        card1_h3: "Guía 1: Metro + caminata para horas punta",
+        card1_p: "Usa metro en tramos troncales y caminata final para reducir tiempo total en zonas congestionadas.",
+        card2_h3: "Guía 2: Parking periférico + último tramo a pie",
+        card2_p: "Comparativa de costo entre estacionar en zona premium versus estacionar lejos y caminar 8-12 minutos.",
+        card3_h3: "Guía 3: Micro en valle para recortar gasto",
+        card3_p: "Rutas de bajo costo cuando la prioridad es presupuesto y no tiempo mínimo."
+      },
+      en: {
+        title: "TripAgent Guides - Urban Mobility",
+        desc: "Urban mobility guides to combine subway, bus, walking, and parking without extra costs.",
+        nav_landing: "Landing",
+        nav_app: "Optimizer",
+        nav_policies: "Policies",
+        hero_h1: "Guides for Trip Optimization in Santiago",
+        hero_p: "Editorial content for content-first strategy. Ads must remain separated from navigation links and action items.",
+        ad_slot1: "Top advertisement zone (no incentivized clicks)",
+        ad_slot2: "Intermediate advertisement zone",
+        card1_h3: "Guide 1: Subway + Walking for rush hours",
+        card1_p: "Use the subway for trunk legs and walking for the final stretch to reduce total time in congested areas.",
+        card2_h3: "Guide 2: Peripheral parking + walking final leg",
+        card2_p: "Cost comparison between parking in a premium zone versus parking further away and walking 8-12 minutes.",
+        card3_h3: "Guide 3: Off-peak buses to cut expenses",
+        card3_p: "Low-cost routes when budget is the priority instead of minimum travel time."
+      }
+    };
+
+    let currentLanguage = localStorage.getItem('tripagent_lang') || 'es';
+
+    function applyTranslations() {
+      const trans = GUIDES_TRANSLATIONS[currentLanguage] || GUIDES_TRANSLATIONS['es'];
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(trans[key]) el.innerHTML = trans[key];
+      });
+
+      document.title = trans.title;
+      const meta = document.getElementById('meta-desc');
+      if (meta) meta.setAttribute('content', trans.desc);
+
+      const btn = document.getElementById('lang-btn');
+      if (btn) {
+        btn.textContent = currentLanguage === 'es' ? '🌐 EN' : '🌐 ES';
+      }
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+      localStorage.setItem('tripagent_lang', currentLanguage);
+      applyTranslations();
+    }
+
+    function applyTheme() {
+      const savedTheme = localStorage.getItem('tripagent_theme') || 'dark';
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+
+    function init() {
+      applyTheme();
+      applyTranslations();
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

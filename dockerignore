@@ -1,0 +1,39 @@
+# Control de versiones
+.git/
+.gitignore
+
+# Entornos virtuales locales (se reconstruyen dentro del contenedor)
+.venv/
+venv/
+env/
+
+# Secretos — NUNCA deben entrar a la imagen
+.env
+*.env
+
+# Salidas generadas localmente
+out/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Herramientas de desarrollo
+.vscode/
+.idea/
+*.code-workspace
+
+# Documentación y tests (no son necesarios en runtime)
+docs/
+tests/
+*.md
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

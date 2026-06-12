@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="title">TripAgent - Guia de rutas urbanas</title>
+  <meta name="description" content="Guia de movilidad urbana en Santiago: metro, micro, caminata y combinaciones para ahorrar tiempo y dinero." id="meta-desc" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --ink: #0f172a;
+      --brand: #2563eb;
+      --card: #ffffff;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --ad-bg: #f1f5f9;
+      --ad-border: #cbd5e1;
+    }
+    body[data-theme="dark"] {
+      --bg: #070d19;
+      --ink: #ddeeff;
+      --brand: #3b82f6;
+      --card: #111f30;
+      --muted: #7c9cb8;
+      --border: #1d3050;
+      --ad-bg: #172540;
+      --ad-border: #254268;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin: 0;
+      font-family: 'Sora', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
+    .wrap { max-width:980px; margin:0 auto; padding:24px; }
+    .hero { background:var(--card); border: 1px solid var(--border); border-radius:16px; padding:28px; box-shadow:0 10px 30px rgba(0,0,0,.05); transition: background 0.3s, border-color 0.3s; }
+    h1 { margin:0 0 10px; font-size:2rem; font-weight: 700; }
+    p { color:var(--muted); line-height:1.55; }
+    .cta { display:inline-block; margin-top:14px; background:var(--brand); color:#fff; text-decoration:none; padding:12px 20px; border-radius:10px; font-weight:600; transition: transform 0.2s, opacity 0.2s; }
+    .cta:hover { transform: scale(1.02); opacity: 0.95; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:18px; }
+    .card { background:var(--card); border: 1px solid var(--border); border-radius:12px; padding:18px; box-shadow:0 4px 20px rgba(0,0,0,.03); transition: background 0.3s, border-color 0.3s; }
+    .ad-slot { background:var(--ad-bg); border:2px dashed var(--ad-border); border-radius:12px; min-height:90px; display:flex; align-items:center; justify-content:center; color:var(--muted); margin:14px 0; font-weight: 500; font-size: 0.9rem; transition: background 0.3s, border-color 0.3s; }
+    .ad-label { font-size:.78rem; color:var(--muted); margin:6px 0 2px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .nav { display:flex; align-items:center; padding: 10px 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .nav a { color:var(--brand); text-decoration:none; margin-right:16px; font-weight:600; transition: opacity 0.2s; }
+    .nav a:hover { opacity: 0.8; }
+    footer { margin-top:30px; color:var(--muted); font-size:.86rem; border-top: 1px solid var(--border); padding-top: 15px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <a href="/guides" data-i18n="nav_guides">Guias</a>
+      <a href="/policies" data-i18n="nav_policies">Politicas</a>
+      <a href="/" data-i18n="nav_app">App</a>
+      <button onclick="toggleLanguage()" id="lang-btn" style="background:none;border:none;color:#0b66c3;font-weight:600;cursor:pointer;margin-left:12px;">🌐 EN</button>
+    </div>
+    <section class="hero">
+      <h1 data-i18n="hero_h1">Planifica mejor tus rutas por Santiago</h1>
+      <p data-i18n="hero_p">Compara alternativas de auto, metro, micro y caminata. Usa esta guia para reducir tiempo total de viaje y elegir paradas tecnicas con mejor criterio.</p>
+      <a class="cta" href="/" data-i18n="cta">Ir al optimizador</a>
+    </section>
+
+    <div class="ad-label" data-i18n="ad_label">Anuncio</div>
+    <div class="ad-slot" data-i18n="ad_slot_label">Espacio reservado para AdSense (responsive)</div>
+
+    <section class="grid">
+      <article class="card">
+        <h3 data-i18n="card1_h3">Cuanto cuesta realmente moverte</h3>
+        <p data-i18n="card1_p">Micro: CLP 770 por viaje. Metro: CLP 710-870 segun franja horaria. Estacionamiento: CLP 1.600-4.500 por hora segun zona.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="card2_h3">Combinaciones utiles</h3>
+        <p data-i18n="card2_p">Las rutas reales suelen mezclar caminar + metro o estacionamiento + caminata. Evalua el tramo completo, no solo la distancia en auto.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="card3_h3">Si el optimizador esta pausado</h3>
+        <p data-i18n="card3_p">Por control de costos, el backend puede entrar en modo temporal no disponible. El contenido y recomendaciones siguen activos.</p>
+      </article>
+    </section>
+
+    <div class="ad-label" data-i18n="ad_label2">Anuncio</div>
+    <div class="ad-slot" data-i18n="ad_slot_label2">Segundo espacio de anuncio (cumplimiento de politicas requerido)</div>
+
+    <footer data-i18n="footer">
+      Revisa politicas de Google AdSense/Publisher Policies y terminos de Google Maps Platform antes de monetizar trafico en produccion.
+    </footer>
+  </div>
+
+  <script>
+    const LANDING_TRANSLATIONS = {
+      es: {
+        title: "TripAgent - Guía de rutas urbanas",
+        desc: "Guía de movilidad urbana en Santiago: metro, micro, caminata y combinaciones para ahorrar tiempo y dinero.",
+        nav_guides: "Guías",
+        nav_policies: "Políticas",
+        nav_app: "App",
+        hero_h1: "Planifica mejor tus rutas por Santiago",
+        hero_p: "Compara alternativas de auto, metro, micro y caminata. Usa esta guía para reducir tiempo total de viaje y elegir paradas técnicas con mejor criterio.",
+        cta: "Ir al optimizador",
+        ad_label: "Anuncio",
+        ad_slot_label: "Espacio reservado para AdSense (responsive)",
+        card1_h3: "Cuánto cuesta realmente moverte",
+        card1_p: "Micro: CLP 770 por viaje. Metro: CLP 710-870 según franja horaria. Estacionamiento: CLP 1.600-4.500 por hora según zona.",
+        card2_h3: "Combinaciones útiles",
+        card2_p: "Las rutas reales suelen mezclar caminar + metro o estacionamiento + caminata. Evalúa el tramo completo, no solo la distancia en auto.",
+        card3_h3: "Si el optimizador está pausado",
+        card3_p: "Por control de costos, el backend puede entrar en modo temporal no disponible. El contenido y recomendaciones siguen activos.",
+        ad_label2: "Anuncio",
+        ad_slot_label2: "Segundo espacio de anuncio (cumplimiento de políticas requerido)",
+        footer: "Revisa políticas de Google AdSense/Publisher Policies y términos de Google Maps Platform antes de monetizar tráfico en producción."
+      },
+      en: {
+        title: "TripAgent - Urban Route Guide",
+        desc: "Urban mobility guide in Santiago: subway, bus, walking, and combinations to save time and money.",
+        nav_guides: "Guides",
+        nav_policies: "Policies",
+        nav_app: "App",
+        hero_h1: "Better Route Planning in Santiago",
+        hero_p: "Compare driving, subway, bus, and walking alternatives. Use this guide to reduce total travel time and make smarter technical stops.",
+        cta: "Go to Optimizer",
+        ad_label: "Advertisement",
+        ad_slot_label: "AdSense space reserved (responsive)",
+        card1_h3: "What moving really costs",
+        card1_p: "Bus: CLP 770 per trip. Subway: CLP 710-870 depending on time of day. Parking: CLP 1,600-4,500 per hour depending on the area.",
+        card2_h3: "Useful combinations",
+        card2_p: "Real routes often mix walking + subway or parking + walking. Evaluate the complete leg, not just the driving distance.",
+        card3_h3: "If the optimizer is paused",
+        card3_p: "Due to cost control, the backend may temporarily enter unavailable mode. Content and recommendations remain active.",
+        ad_label2: "Advertisement",
+        ad_slot_label2: "Second ad slot (policy compliance required)",
+        footer: "Review Google AdSense/Publisher Policies and Google Maps Platform terms before monetizing traffic in production."
+      }
+    };
+
+    let currentLanguage = localStorage.getItem('tripagent_lang') || 'es';
+
+    function applyTranslations() {
+      const trans = LANDING_TRANSLATIONS[currentLanguage] || LANDING_TRANSLATIONS['es'];
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(trans[key]) el.innerHTML = trans[key];
+      });
+
+      document.title = trans.title;
+      const meta = document.getElementById('meta-desc');
+      if (meta) meta.setAttribute('content', trans.desc);
+
+      const btn = document.getElementById('lang-btn');
+      if (btn) {
+        btn.textContent = currentLanguage === 'es' ? '🌐 EN' : '🌐 ES';
+      }
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+      localStorage.setItem('tripagent_lang', currentLanguage);
+      applyTranslations();
+    }
+
+    function applyTheme() {
+      const savedTheme = localStorage.getItem('tripagent_theme') || 'dark';
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+
+    function init() {
+      applyTheme();
+      applyTranslations();
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
