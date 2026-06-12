@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-import requests
 
 from tripagent.cache import cached_call
 from tripagent.config import get_settings, require_google_key

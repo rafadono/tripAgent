@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from tripagent.config import load_env
 from tripagent.config import get_settings
 from tripagent.health import router as health_router
 from tripagent.web.middleware import install_metrics_middleware
